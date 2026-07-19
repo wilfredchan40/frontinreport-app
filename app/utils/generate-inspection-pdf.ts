@@ -10,9 +10,9 @@ import {
 } from '~/utils/inspection-report'
 import { arrayBufferToBase64, fileTo9x16DataUrl } from '~/utils/file-to-base64'
 
-/** PDF 相片顯示尺寸（9:16 直向） */
-const PDF_PHOTO_WIDTH = 90
-const PDF_PHOTO_HEIGHT = 160
+/** PDF 相片顯示尺寸（9:16 直向，相對原尺寸 ×200%） */
+const PDF_PHOTO_WIDTH = 180
+const PDF_PHOTO_HEIGHT = 320
 
 const FONT_CACHE_KEY = 'noto-sans-tc-pdf-vfs'
 const FONT_FILE = 'NotoSansTC-Regular.ttf'

@@ -127,7 +127,7 @@ function removePhoto(photoId: string) {
         <img
           :src="getPreviewUrl(photo.file)"
           :alt="photo.file.name"
-          class="aspect-[9/16] h-48 shrink-0 rounded-lg border border-[var(--fung-border)] object-cover shadow-sm"
+          class="aspect-[9/16] h-96 shrink-0 rounded-lg border border-[var(--fung-border)] object-cover shadow-sm"
         >
 
         <div class="min-w-0 flex-1 space-y-3">
