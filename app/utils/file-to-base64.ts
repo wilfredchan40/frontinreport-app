@@ -8,17 +8,17 @@ export function fileToDataUrl(file: File): Promise<string> {
   })
 }
 
-/** 將圖片置中裁切為 16:9，輸出 JPEG data URL（供網站／PDF 一致顯示） */
-export async function fileTo16x9DataUrl(
+/** 將圖片置中裁切為 9:16（直向），輸出 JPEG data URL（供網站／PDF 一致顯示） */
+export async function fileTo9x16DataUrl(
   file: File,
-  outputWidth = 1280
+  outputHeight = 1280
 ): Promise<string> {
   const source = await fileToDataUrl(file)
 
   return new Promise((resolve, reject) => {
     const img = new Image()
     img.onload = () => {
-      const targetRatio = 16 / 9
+      const targetRatio = 9 / 16
       let sx = 0
       let sy = 0
       let sw = img.width
@@ -33,7 +33,7 @@ export async function fileTo16x9DataUrl(
         sy = (img.height - sh) / 2
       }
 
-      const outputHeight = Math.round((outputWidth * 9) / 16)
+      const outputWidth = Math.round((outputHeight * 9) / 16)
       const canvas = document.createElement('canvas')
       canvas.width = outputWidth
       canvas.height = outputHeight
