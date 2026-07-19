@@ -108,7 +108,7 @@ function removePhoto(photoId: string) {
         accept="image/*"
         layout="list"
         label="選擇或拖放相片"
-        description="支援多選；上傳後可連結至已 TICK 的檢查項目"
+        description="支援多選；顯示與 PDF 均以 16:9 裁切呈現"
         class="w-full rounded-xl"
         @update:model-value="onFilesSelected"
       />
@@ -127,7 +127,7 @@ function removePhoto(photoId: string) {
         <img
           :src="getPreviewUrl(photo.file)"
           :alt="photo.file.name"
-          class="h-28 w-36 shrink-0 rounded-lg border border-[var(--fung-border)] object-cover shadow-sm"
+          class="aspect-video w-48 shrink-0 rounded-lg border border-[var(--fung-border)] object-cover shadow-sm"
         >
 
         <div class="min-w-0 flex-1 space-y-3">

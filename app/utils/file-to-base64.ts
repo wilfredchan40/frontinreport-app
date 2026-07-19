@@ -8,6 +8,49 @@ export function fileToDataUrl(file: File): Promise<string> {
   })
 }
 
+/** 將圖片置中裁切為 16:9，輸出 JPEG data URL（供網站／PDF 一致顯示） */
+export async function fileTo16x9DataUrl(
+  file: File,
+  outputWidth = 1280
+): Promise<string> {
+  const source = await fileToDataUrl(file)
+
+  return new Promise((resolve, reject) => {
+    const img = new Image()
+    img.onload = () => {
+      const targetRatio = 16 / 9
+      let sx = 0
+      let sy = 0
+      let sw = img.width
+      let sh = img.height
+      const srcRatio = img.width / img.height
+
+      if (srcRatio > targetRatio) {
+        sw = img.height * targetRatio
+        sx = (img.width - sw) / 2
+      } else if (srcRatio < targetRatio) {
+        sh = img.width / targetRatio
+        sy = (img.height - sh) / 2
+      }
+
+      const outputHeight = Math.round((outputWidth * 9) / 16)
+      const canvas = document.createElement('canvas')
+      canvas.width = outputWidth
+      canvas.height = outputHeight
+      const ctx = canvas.getContext('2d')
+      if (!ctx) {
+        reject(new Error('無法建立 canvas'))
+        return
+      }
+
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, outputWidth, outputHeight)
+      resolve(canvas.toDataURL('image/jpeg', 0.88))
+    }
+    img.onerror = () => reject(new Error('載入圖片失敗'))
+    img.src = source
+  })
+}
+
 /** 將 ArrayBuffer 轉為 base64（分塊避免堆疊溢出） */
 export function arrayBufferToBase64(buffer: ArrayBuffer): string {
   const bytes = new Uint8Array(buffer)

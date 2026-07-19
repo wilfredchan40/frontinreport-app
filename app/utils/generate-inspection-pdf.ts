@@ -8,7 +8,11 @@ import {
   getRowLabel,
   getSeverityLabel
 } from '~/utils/inspection-report'
-import { arrayBufferToBase64, fileToDataUrl } from '~/utils/file-to-base64'
+import { arrayBufferToBase64, fileTo16x9DataUrl } from '~/utils/file-to-base64'
+
+/** PDF 相片顯示尺寸（16:9） */
+const PDF_PHOTO_WIDTH = 160
+const PDF_PHOTO_HEIGHT = 90
 
 const FONT_CACHE_KEY = 'noto-sans-tc-pdf-vfs'
 const FONT_FILE = 'NotoSansTC-Regular.ttf'
@@ -188,11 +192,11 @@ async function buildPhotoSection(report: InspectionReport): Promise<Content[]> {
   const unlinked: Content[] = []
 
   for (const photo of report.galleryPhotos) {
-    const dataUrl = await fileToDataUrl(photo.file)
+    const dataUrl = await fileTo16x9DataUrl(photo.file)
     const imageBlock: Content = {
       image: dataUrl,
-      width: 110,
-      height: 82,
+      width: PDF_PHOTO_WIDTH,
+      height: PDF_PHOTO_HEIGHT,
       margin: [0, 4, 8, 4] as [number, number, number, number]
     }
 
